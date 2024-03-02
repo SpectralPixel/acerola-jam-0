@@ -13,6 +13,23 @@ impl Plugin for PlayerPlugin {
     }
 }
 
+#[derive(Component)]
+pub struct Player;
+
+pub fn initialize_player(
+    mut commands: Commands,
+    asset_server: Res<AssetServer>,
+) {
+    commands.spawn((
+        Player,
+        SpriteBundle {
+            texture: asset_server.load("Player.png"),
+            transform: Transform::from_scale(Vec3::splat(0.05)),
+            ..default()
+        },
+    ));
+}
+
 pub fn handle_input(
     keys: Res<ButtonInput<KeyCode>>,
 ) {
