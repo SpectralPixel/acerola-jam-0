@@ -30,6 +30,7 @@ pub fn initialize_player(
             ..default()
         },
         RigidBody::Dynamic,
+        GravityScale(2.0),
         Collider::ball(sprite_size * 200.),
     ));
 }
