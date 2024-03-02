@@ -13,7 +13,7 @@ impl Plugin for SetupGamePlugin {
     fn build(&self, app: &mut App) {
         app
             .add_plugins((
-                RapierPhysicsPlugin::<NoUserData>::pixels_per_meter(100.),
+                RapierPhysicsPlugin::<NoUserData>::pixels_per_meter(75.),
                 camera::CameraPlugin,
                 player::PlayerPlugin,
             ))

@@ -1,4 +1,5 @@
 use bevy::prelude::*;
+use bevy_rapier2d::prelude::*;
 
 pub struct PlayerPlugin;
 
@@ -20,13 +21,16 @@ pub fn initialize_player(
     mut commands: Commands,
     asset_server: Res<AssetServer>,
 ) {
+    let sprite_size = 1.;
     commands.spawn((
         Player,
         SpriteBundle {
             texture: asset_server.load("Player.png"),
-            transform: Transform::from_scale(Vec3::splat(0.05)),
+            transform: Transform::from_scale(Vec3::splat(sprite_size / 10.)),
             ..default()
         },
+        RigidBody::Dynamic,
+        Collider::ball(sprite_size * 200.),
     ));
 }
 
