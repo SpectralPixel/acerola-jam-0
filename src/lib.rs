@@ -5,6 +5,7 @@ use bevy::{
 use bevy_rapier2d::prelude::*;
 
 mod camera;
+mod player;
 
 pub struct SetupGamePlugin;
 
@@ -14,6 +15,7 @@ impl Plugin for SetupGamePlugin {
             .add_plugins((
                 RapierPhysicsPlugin::<NoUserData>::pixels_per_meter(100.),
                 camera::CameraPlugin,
+                player::PlayerPlugin,
             ))
             .add_systems(Update, close_on_esc);
     }
