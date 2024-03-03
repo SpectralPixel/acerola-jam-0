@@ -30,20 +30,20 @@ pub fn initialize_level(
 ) {
     let shapes = [
         LevelRectangle::new(
-            Vec2::new(0., -370.),
-            Vec2::new(1300., 30.),
+            Vec2::new(0., -570.),
+            Vec2::new(2000., 30.),
         ),
         LevelRectangle::new(
-            Vec2::new(0., 370.),
-            Vec2::new(1300., 30.),
+            Vec2::new(0., 570.),
+            Vec2::new(2000., 30.),
         ),
         LevelRectangle::new(
-            Vec2::new(-650., 0.),
-            Vec2::new(30., 750.),
+            Vec2::new(-1000., 0.),
+            Vec2::new(30., 1155.),
         ),
         LevelRectangle::new(
-            Vec2::new(650., 0.),
-            Vec2::new(30., 750.),
+            Vec2::new(1000., 0.),
+            Vec2::new(30., 1155.),
         ),
     ];
 
