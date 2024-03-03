@@ -1,5 +1,5 @@
-use bevy::prelude::*;
 use acerola_jam_0::*;
+use bevy::prelude::*;
 
 fn main() {
     let window_plugin = WindowPlugin {
@@ -11,10 +11,6 @@ fn main() {
     };
 
     App::new()
-        .add_plugins((
-            DefaultPlugins
-                .set(window_plugin),
-            SetupGamePlugin
-        ))
+        .add_plugins((DefaultPlugins.set(window_plugin), SetupGamePlugin))
         .run();
 }

@@ -1,7 +1,6 @@
-use std::f32::consts::PI;
-
 use bevy::prelude::*;
 use bevy_rapier2d::prelude::*;
+use std::f32::consts::PI;
 
 const PLAYER_SPEED: f32 = 5.5;
 const TURN_THRUST_FACTOR: f32 = 0.001;
@@ -10,22 +9,15 @@ pub struct PlayerPlugin;
 
 impl Plugin for PlayerPlugin {
     fn build(&self, app: &mut App) {
-        app
-            .add_systems(Startup, initialize_player)
-            .add_systems(
-                Update,
-                handle_input
-            );
+        app.add_systems(Startup, initialize_player)
+            .add_systems(Update, handle_input);
     }
 }
 
 #[derive(Component)]
 pub struct Player;
 
-pub fn initialize_player(
-    mut commands: Commands,
-    asset_server: Res<AssetServer>,
-) {
+pub fn initialize_player(mut commands: Commands, asset_server: Res<AssetServer>) {
     let size_factor = 0.02;
     let collider_size = 750.;
     commands.spawn((
@@ -69,24 +61,16 @@ pub fn handle_input(
                     f32::sin(rotation) * PLAYER_SPEED,
                 ),
                 0.,
-                &mut ext_forces
+                &mut ext_forces,
             );
         }
         if keys.pressed(KeyCode::KeyD) {
             println!("D Pressed!");
-            apply_force(
-                Vec2::new(0., 0.),
-                -TURN_THRUST_FACTOR,
-                &mut ext_forces
-            );
+            apply_force(Vec2::new(0., 0.), -TURN_THRUST_FACTOR, &mut ext_forces);
         }
         if keys.pressed(KeyCode::KeyA) {
             println!("A Pressed!");
-            apply_force(
-                Vec2::new(0., 0.),
-                TURN_THRUST_FACTOR,
-                &mut ext_forces
-            );
+            apply_force(Vec2::new(0., 0.), TURN_THRUST_FACTOR, &mut ext_forces);
         }
     }
 }
@@ -94,7 +78,7 @@ pub fn handle_input(
 fn apply_force(
     pos_offset: Vec2,
     torque_offset: f32,
-    ext_forces: &mut Query<&mut ExternalImpulse, With<Player>>
+    ext_forces: &mut Query<&mut ExternalImpulse, With<Player>>,
 ) {
     for mut ext_force in ext_forces.iter_mut() {
         ext_force.impulse += pos_offset;
