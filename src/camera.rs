@@ -9,13 +9,25 @@ impl Plugin for CameraPlugin {
             //enabled: false,
             ..default()
         })
-        .add_systems(Startup, setup_camera);
+        .add_systems(Startup, setup_camera)
+        .add_systems(Update, move_camera);
     }
 }
 
 #[derive(Component)]
-struct MainCamera;
+pub struct MainCamera;
 
 pub fn setup_camera(mut commands: Commands) {
     commands.spawn((MainCamera, Camera2dBundle { ..default() }));
+}
+
+pub fn move_camera(
+    mut cameras: Query<(&MainCamera, &mut Transform), Without<super::player::Player>>,
+    players: Query<&Transform, With<super::player::Player>>,
+) {
+    let players: Vec<&Transform> = players.iter().collect();
+    for (i, (_, mut cam_pos)) in cameras.iter_mut().enumerate() {
+        let pos = players.get(i).unwrap().translation;
+        *cam_pos = Transform::from_translation(Vec3::new(pos.x, pos.y, 0.));
+    }
 }
