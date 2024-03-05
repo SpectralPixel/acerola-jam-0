@@ -15,6 +15,7 @@ pub fn player_input(
     keys: Res<ButtonInput<KeyCode>>,
     player_transforms: Query<&mut Transform, With<player::Player>>,
     mut ext_forces: Query<&mut ExternalImpulse, With<player::Player>>,
+    time: Res<Time>,
 ) {
     for player_transform in player_transforms.iter() {
         let mut forward: f32 = 0.;
@@ -29,6 +30,6 @@ pub fn player_input(
             direction += 1.;
         }
         let (_, _, rotation) = player_transform.rotation.to_euler(EulerRot::XYZ);
-        super::player::move_player(forward, direction, rotation, &mut ext_forces);
+        super::player::move_player(forward, direction, rotation, &time, &mut ext_forces);
     }
 }

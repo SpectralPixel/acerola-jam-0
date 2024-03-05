@@ -2,8 +2,8 @@ use bevy::prelude::*;
 use bevy_rapier2d::prelude::*;
 use std::f32::consts::PI;
 
-const PLAYER_SPEED: f32 = 5.5;
-const TURN_THRUST_FACTOR: f32 = 0.001;
+const PLAYER_SPEED: f32 = 660.;
+const TURN_THRUST_FACTOR: f32 = 0.12;
 
 pub struct PlayerPlugin;
 
@@ -50,14 +50,16 @@ pub fn move_player(
     is_moving: f32,
     rot_dir: f32,
     angle: f32,
+    time: &Res<Time>,
     mut ext_forces: &mut Query<&mut ExternalImpulse, With<Player>>,
 ) {
+    let delta_time = time.delta_seconds();
     apply_force(
         Vec2::new(
-            f32::cos(angle) * PLAYER_SPEED * is_moving,
-            f32::sin(angle) * PLAYER_SPEED * is_moving,
+            f32::cos(angle) * PLAYER_SPEED * is_moving * delta_time,
+            f32::sin(angle) * PLAYER_SPEED * is_moving * delta_time,
         ),
-        TURN_THRUST_FACTOR * rot_dir,
+        TURN_THRUST_FACTOR * rot_dir * delta_time,
         &mut ext_forces,
     );
 }
