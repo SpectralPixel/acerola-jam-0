@@ -4,6 +4,7 @@ use bevy_rapier2d::prelude::*;
 mod camera;
 mod level;
 mod player;
+mod input;
 
 pub struct SetupGamePlugin;
 
@@ -14,6 +15,7 @@ impl Plugin for SetupGamePlugin {
             camera::CameraPlugin,
             player::PlayerPlugin,
             level::LevelPlugin,
+            input::InputPlugin,
         ))
         .add_systems(Update, close_on_esc);
     }

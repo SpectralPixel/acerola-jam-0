@@ -9,8 +9,8 @@ pub struct PlayerPlugin;
 
 impl Plugin for PlayerPlugin {
     fn build(&self, app: &mut App) {
-        app.add_systems(Startup, initialize_player)
-            .add_systems(Update, handle_input);
+        app
+            .add_systems(Startup, initialize_player);
     }
 }
 
@@ -46,33 +46,20 @@ pub fn initialize_player(mut commands: Commands, asset_server: Res<AssetServer>)
     ));
 }
 
-pub fn handle_input(
-    keys: Res<ButtonInput<KeyCode>>,
-    player_transforms: Query<&mut Transform, With<Player>>,
-    mut ext_forces: Query<&mut ExternalImpulse, With<Player>>,
+pub fn move_player(
+    is_moving: f32,
+    rot_dir: f32,
+    angle: f32,
+    mut ext_forces: &mut Query<&mut ExternalImpulse, With<Player>>,
 ) {
-    for player_transform in player_transforms.iter() {
-        if keys.pressed(KeyCode::KeyW) {
-            println!("W Pressed!");
-            let (_, _, rotation) = player_transform.rotation.to_euler(EulerRot::XYZ);
-            apply_force(
-                Vec2::new(
-                    f32::cos(rotation) * PLAYER_SPEED,
-                    f32::sin(rotation) * PLAYER_SPEED,
-                ),
-                0.,
-                &mut ext_forces,
-            );
-        }
-        if keys.pressed(KeyCode::KeyD) {
-            println!("D Pressed!");
-            apply_force(Vec2::new(0., 0.), -TURN_THRUST_FACTOR, &mut ext_forces);
-        }
-        if keys.pressed(KeyCode::KeyA) {
-            println!("A Pressed!");
-            apply_force(Vec2::new(0., 0.), TURN_THRUST_FACTOR, &mut ext_forces);
-        }
-    }
+    apply_force(
+        Vec2::new(
+            f32::cos(angle) * PLAYER_SPEED * is_moving,
+            f32::sin(angle) * PLAYER_SPEED * is_moving,
+        ),
+        TURN_THRUST_FACTOR * rot_dir,
+        &mut ext_forces,
+    );
 }
 
 fn apply_force(
